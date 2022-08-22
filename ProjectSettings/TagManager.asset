@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - zombi
+  - bloc
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - pleir
+  - Water
+  - UI
+  - mob
+  - struct
+  - bloc
+  - post
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: magaz
+    uniqueID: 628088073
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: grunt
+    uniqueID: 3893355275
+    locked: 0
+  - name: pleir
+    uniqueID: 1682756663
+    locked: 0
