@@ -82,7 +82,6 @@ public class ruze : defoltTuls
                 vistrelEve.Invoke();
                 audios.plei(bux);
             }
-
     }
 
 

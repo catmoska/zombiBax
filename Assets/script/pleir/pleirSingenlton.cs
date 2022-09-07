@@ -8,12 +8,15 @@ public class pleirSingenlton : MonoBehaviour
 
     private void Awake()
     {
-        signelton = this;
-        pleirObgect = gameObject;
-        pleirTransform = gameObject.transform;
+        upd();
     }
 
     private void FixedUpdate()
+    {
+        upd();
+    }
+
+    public void upd()
     {
         signelton = this;
         pleirObgect = gameObject;

@@ -13,8 +13,6 @@ public class generit : MonoBehaviour
             for (int Y = 1; Y < 3; Y++)
                 SS.nostavkaBloca(X, Y, 1, true);
 
-
-
         for (int X = 0; X < 2; X++)
             SS.nostavkaBloca(X, 3, 2, true);
 

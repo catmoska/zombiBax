@@ -14,22 +14,21 @@ public class zombi : mob
     [Header("datsici")]
     public Transform blokSnizu;
     public Transform blokSenter;
-    //public Transform blokVerx;
-    //public Transform blokSnizuZad;
-    //public Transform blokSenterZad;
-    //public Transform blokVerxZad;
-    //public Transform blokGolova;
     public blocDetast bloc;
 
     [Header("detectControl")]
     public float checkRadius;
     public LayerMask blocDetect;
     public LayerMask ZombiDetect;
+    public LayerMask pleirDetect;
     public float distansiaUP;
 
     [Header("Dvizenia")]
     public float jamp;
     public float speed;
+    public float speedStart;
+    public float speedFines;
+    public float speedMinus;
 
     [Header("time")]
     public float timeJamp;
@@ -37,6 +36,7 @@ public class zombi : mob
 
     private void Start()
     {
+        speed = speedStart;
         start();
         CN = GetComponent<casaniaNola>();
         rb = GetComponent<Rigidbody2D>();
@@ -46,10 +46,18 @@ public class zombi : mob
 
     private void FixedUpdates()
     {
+        if(speed> speedFines)
+            speed -= speedMinus;
+        else
+            speed = speedFines;
+        
+
+
         if (GlobalTime.sig.getBoolDei()) {
+            
             if (globalNeramenia.sig.debug) Debug.DrawRay(transform.position, Vector2.up * distansiaUP*5);
             RaycastHit2D[] o = Physics2D.RaycastAll(transform.position, Vector2.up, distansiaUP*5, blocDetect);
-            if (o.Length == 0) kill = true; 
+            if (o.Length == 0 || sostainia == 3) kill = true;
         }
 
         if (kill) {
@@ -65,16 +73,21 @@ public class zombi : mob
 
     private void NN()
     {
-        if (sostainia == 0)
+        if (sostainia == 0)//idti
         {
             transform.Translate(Vector2.left * speed * Time.deltaTime);
 
             bloc.SnizuL = Physics2D.OverlapCircle(blokSnizu.position, checkRadius, blocDetect);
             bloc.SenterL = Physics2D.OverlapCircle(blokSenter.position, checkRadius, blocDetect);
 
-            if (!bloc.SenterL) 
+            if (!bloc.SenterL)
+            {
                 if (Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, ZombiDetect)) obnovleniaSostainia(2);
+                else if (Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, pleirDetect)) obnovleniaSostainia(4);
+            }
             
+
+
             if (bloc.SenterL)
             {
                 obnovleniaSostainia(1);
@@ -87,11 +100,11 @@ public class zombi : mob
                 else obnovleniaSostainia(1);
             }
 
-            if(transform.position.x<=1)
+            if(transform.position.x<=3)
                 obnovleniaSostainia(3);
 
         }
-        else if (sostainia == 1)
+        else if (sostainia == 1)//lomat
         {
             bloc.SenterL = Physics2D.OverlapCircle(blokSenter.position, checkRadius, blocDetect);
             if (globalNeramenia.sig.debug) Debug.DrawRay(transform.position, Vector2.up * distansiaUP);
@@ -109,13 +122,23 @@ public class zombi : mob
                 if (!sos) obnovleniaSostainia(0);
             }
             else obnovleniaSostainia(0);
-        }else if (sostainia == 2)
+        }
+        else if (sostainia == 2)//zdot
         {
+            if(Random.Range(0,2)==0)
+                obnovleniaSostainia(1);
             if (!Physics2D.OverlapCircle(blokSenter.position, checkRadius, ZombiDetect)) obnovleniaSostainia(0);
         }
-        else if(sostainia == 3)
+        else if(sostainia == 3)//fineh
         {
-            //fineh
+            bancaHP.sig.yron();
+            if (transform.position.x > 3)
+                obnovleniaSostainia(1);
+        }
+        else if (sostainia == 4)//pleir
+        {
+            if(!pleirHp.sig.yron(1)) obnovleniaSostainia(1);
+            else if (!Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, pleirDetect)) obnovleniaSostainia(1);
         }
         else
             Debug.LogError("zombi NN: sostainia = " + sostainia);

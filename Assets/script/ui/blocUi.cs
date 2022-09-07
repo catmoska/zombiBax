@@ -16,7 +16,7 @@ public class blocUi : MonoBehaviour
             text.text = stritelstvo.sig.getKolisestvoReltaim().ToString()
         );
 
-        nrosli = 0;
+        nrosli = stritelstvo.sig.BlocIndex;
         for (int i = 0;i< blocs.Length;i++)
             blocs[i].SetActive(false);
 

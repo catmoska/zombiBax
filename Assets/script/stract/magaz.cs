@@ -44,6 +44,10 @@ public class magaz : MonoBehaviour
     {
         An = GetComponent<Animator>();
         knopka.SetActive(false);
+
+        bool i = GlobalTime.sig.getBoolDei();
+        sostoinia = i;
+        An.SetBool("nrasa", !i);
     }
 
     private void FixedUpdate()

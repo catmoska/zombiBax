@@ -28,6 +28,8 @@ public class stritelstvo : MonoBehaviour
     [Header("Event")]
     public UnityEvent updeit = new UnityEvent();
 
+    public Transform nasledka;
+
     private void Awake()
     {
         sig = this;
@@ -82,6 +84,7 @@ public class stritelstvo : MonoBehaviour
             }
             BlokPosision[X, Y] =
                 Instantiate(Bloc[BlocIndexx], pos, Quaternion.identity);
+            BlokPosision[X, Y].transform.SetParent(nasledka);
             return true;
         }
         return false;
