@@ -216,6 +216,7 @@ MonoBehaviour:
   speedMinus: 0.005
   timeJamp: 0
   timeStartJamp: 0.2
+  XBanca: 2.91
 --- !u!114 &5355250412333414607
 MonoBehaviour:
   m_ObjectHideFlags: 0

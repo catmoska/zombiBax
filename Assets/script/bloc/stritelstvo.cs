@@ -139,19 +139,19 @@ public class stritelstvo : MonoBehaviour
         return mesnost(xMays,  yMays);
     }
 
-    public bool lomats(int X, int Y, int Ur)
+    public bool lomats(int X, int Y, int Ur , bool Kto = false)
     {
         if (X >= 100 || Y >= 50 || X < 0 || Y < 0 || BlokPosision[X, Y] == null) return false;
         bloc Blo = BlokPosision[X, Y].GetComponent<bloc>();
         bool i = Blo.lomat(Ur);
-        if(i&& Blo.id != -1) BlocColisestvo[Blo.id]++;
+        if(i&& Blo.id != -1 && Kto) BlocColisestvo[Blo.id]++;
         updeit.Invoke();
-        return true;
+        return i;
     }
 
-    public bool lomats(Vector2Int pos, int Ur)
+    public bool lomats(Vector2Int pos, int Ur, bool Kto = false)
     {
-        return lomats(pos.x, pos.y, Ur);
+        return lomats(pos.x, pos.y, Ur,Kto);
     }
 
     public int getKolisestvoReltaim()

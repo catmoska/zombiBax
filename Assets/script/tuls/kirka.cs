@@ -13,7 +13,7 @@ public class kirka : defoltTuls
     private void FixedUpdate()
     {
         if (Input.GetMouseButton(0))
-            stro.lomats(stro.mesnostMaus(),uron);
+            stro.lomats(stro.mesnostMaus(),uron,true);
     }
 
 }

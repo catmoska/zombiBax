@@ -36,7 +36,7 @@ public class bloc : MonoBehaviour
             else SR.sprite = globalNeramenia.sig.SpriteLomat[0];
             SR.enabled = true;
         }
-        return false;
+        return true;
     }
 
     public void kill()

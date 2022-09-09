@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class pleirHp : MonoBehaviour
 {
@@ -10,8 +11,28 @@ public class pleirHp : MonoBehaviour
     public float Hp;
     public bool kills;
     public Vector2 pos;
-
     public TMP_Text tex;
+
+    public float HPÇocazatel;
+    public float HPÇromezutoc;
+
+    public Slider skid;
+
+    private void FixedUpdate()
+    {
+        float i = (float)((decimal)Hp / (decimal)startHP);
+
+        if (HPÇocazatel != i)
+        {
+            if (Mathf.Abs(HPÇocazatel - i) <= HPÇromezutoc)
+                HPÇocazatel = i;
+            else if (HPÇocazatel > i)
+                HPÇocazatel -= HPÇromezutoc;
+            else
+                HPÇocazatel += HPÇromezutoc;
+        }
+        skid.value = HPÇocazatel;
+    }
 
     private void Start()
     {

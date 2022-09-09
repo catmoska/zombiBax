@@ -36,7 +36,7 @@ public class zombiAnimator : MonoBehaviour
 
         if (i == 0)
             An.SetInteger("sostoania", 1);
-        else if (i == 1 || i==3)
+        else if (i == 1 || i==3 ||i==4||i==3||i==5||i==6)
             An.SetInteger("sostoania", 2);
         else
             An.SetInteger("sostoania", 0);

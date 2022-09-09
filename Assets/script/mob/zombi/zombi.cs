@@ -34,6 +34,8 @@ public class zombi : mob
     public float timeJamp;
     public float timeStartJamp;
 
+    public float XBanca = 3;
+
     private void Start()
     {
         speed = speedStart;
@@ -46,7 +48,9 @@ public class zombi : mob
 
     private void FixedUpdates()
     {
-        if(speed> speedFines)
+        stro = stritelstvo.sig;
+
+        if (speed> speedFines)
             speed -= speedMinus;
         else
             speed = speedFines;
@@ -73,77 +77,113 @@ public class zombi : mob
 
     private void NN()
     {
-        if (sostainia == 0)//idti
+        switch (sostainia)
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
+            case 0://idti
+                idti();
+                break;
+            case 1://lomat
+                lomat();
+                break;
+            case 2://zdot
+                if (Random.Range(0, 2) == 0)
+                    obnovleniaSostainia(1);
+                if (!Physics2D.OverlapCircle(blokSenter.position, checkRadius, ZombiDetect)) obnovleniaSostainia(0);
+                break;
+            case 3://fineh
+                float i = 3.8f - transform.position.y;
+                if (Mathf.Abs(i) > 0.8f)
+                {
+                    if (i < 0)
+                        obnovleniaSostainia(5);
+                    else
+                        obnovleniaSostainia(6);
+                }
 
-            bloc.SnizuL = Physics2D.OverlapCircle(blokSnizu.position, checkRadius, blocDetect);
-            bloc.SenterL = Physics2D.OverlapCircle(blokSenter.position, checkRadius, blocDetect);
+                bancaHP.sig.yron();
+                if (transform.position.x > XBanca)
+                    obnovleniaSostainia(1);
+                break;
+            case 4://pleir
+                if (!pleirHp.sig.yron(1)) obnovleniaSostainia(1);
+                else if (!Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, pleirDetect)) obnovleniaSostainia(1);
+                break;
+            case 5://fineh Sverxu
+                if (transform.position.x > XBanca)
+                    obnovleniaSostainia(1);
 
-            if (!bloc.SenterL)
-            {
-                if (Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, ZombiDetect)) obnovleniaSostainia(2);
-                else if (Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, pleirDetect)) obnovleniaSostainia(4);
-            }
-            
+                float pos= 3.8f - transform.position.y;
+                if (!(Mathf.Abs(pos) > 0.8f))
+                    obnovleniaSostainia(3);
 
-
-            if (bloc.SenterL)
-            {
-                obnovleniaSostainia(1);
-            }
-            else if (bloc.SnizuL)
-            {
-                if (globalNeramenia.sig.debug) Debug.DrawRay(transform.position, Vector2.up * distansiaUP);
-                RaycastHit2D[] o = Physics2D.RaycastAll(transform.position, Vector2.up, distansiaUP, blocDetect);
-                if (o.Length == 0) jam();
-                else obnovleniaSostainia(1);
-            }
-
-            if(transform.position.x<=3)
-                obnovleniaSostainia(3);
-
-        }
-        else if (sostainia == 1)//lomat
-        {
-            bloc.SenterL = Physics2D.OverlapCircle(blokSenter.position, checkRadius, blocDetect);
-            if (globalNeramenia.sig.debug) Debug.DrawRay(transform.position, Vector2.up * distansiaUP);
-
-            if (bloc.SenterL)
-            {
-                Vector2 Vec = (Vector2)(blokSenter.position) + Vector2.left * 0.2f;
+                Vector2 Vec = (Vector2)(transform.position) + Vector2.down * distansiaUP;
                 bool sos = stro.lomats(stro.mesnost(Vec), 1);
-                if (!sos) obnovleniaSostainia(0);
-            }
-            else if ((Physics2D.RaycastAll(transform.position, Vector2.up, distansiaUP, blocDetect)).Length != 0)
-            {
-                Vector2 Vec = (Vector2)(transform.position) + Vector2.up * 1.3f;
-                bool sos = stro.lomats(stro.mesnost(Vec), 1);
-                if (!sos) obnovleniaSostainia(0);
-            }
-            else obnovleniaSostainia(0);
-        }
-        else if (sostainia == 2)//zdot
-        {
-            if(Random.Range(0,2)==0)
+                if (!sos) obnovleniaSostainia(3);
+                break;
+            case 6://fineh snizu
+                bancaHP.sig.yron();
+                jam();
+                if (transform.position.x > XBanca)
+                    obnovleniaSostainia(1);
+                break;
+            default:
                 obnovleniaSostainia(1);
-            if (!Physics2D.OverlapCircle(blokSenter.position, checkRadius, ZombiDetect)) obnovleniaSostainia(0);
+                Debug.LogError("zombi NN: sostainia = " + sostainia);
+                break;
         }
-        else if(sostainia == 3)//fineh
-        {
-            bancaHP.sig.yron();
-            if (transform.position.x > 3)
-                obnovleniaSostainia(1);
-        }
-        else if (sostainia == 4)//pleir
-        {
-            if(!pleirHp.sig.yron(1)) obnovleniaSostainia(1);
-            else if (!Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, pleirDetect)) obnovleniaSostainia(1);
-        }
-        else
-            Debug.LogError("zombi NN: sostainia = " + sostainia);
-        
     }
+
+    public void idti()
+    {
+        transform.Translate(Vector2.left * speed * Time.deltaTime);
+
+        bloc.SnizuL = Physics2D.OverlapCircle(blokSnizu.position, checkRadius, blocDetect);
+        bloc.SenterL = Physics2D.OverlapCircle(blokSenter.position, checkRadius, blocDetect);
+
+        if (!bloc.SenterL)
+        {
+            if (Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, ZombiDetect)) obnovleniaSostainia(2);
+            else if (Physics2D.OverlapCircle((Vector2)blokSenter.position, checkRadius, pleirDetect)) obnovleniaSostainia(4);
+        }
+
+        if (bloc.SenterL)
+        {
+            obnovleniaSostainia(1);
+        }
+        else if (bloc.SnizuL)
+        {
+            if (globalNeramenia.sig.debug) Debug.DrawRay(transform.position, Vector2.up * distansiaUP);
+            RaycastHit2D[] o = Physics2D.RaycastAll(transform.position, Vector2.up, distansiaUP, blocDetect);
+            if (o.Length == 0) jam();
+            else obnovleniaSostainia(1);
+        }
+
+        if (transform.position.x <= XBanca)
+            obnovleniaSostainia(3);
+    }
+
+    public void lomat()
+    {
+        bloc.SenterL = Physics2D.OverlapCircle(blokSenter.position, checkRadius, blocDetect);
+        if (globalNeramenia.sig.debug) Debug.DrawRay(transform.position, Vector2.up * distansiaUP);
+
+        if (bloc.SenterL)
+        {
+            Vector2 Vec = (Vector2)(blokSenter.position) + Vector2.left * 0.2f;
+            bool sos = stro.lomats(stro.mesnost(Vec), 1);
+            if (!sos) obnovleniaSostainia(0);
+        }
+        else if ((Physics2D.RaycastAll(transform.position, Vector2.up, distansiaUP, blocDetect)).Length != 0)
+        {
+            Vector2 Vec = (Vector2)(transform.position) + Vector2.up * 1.3f;
+            bool sos = stro.lomats(stro.mesnost(Vec), 1);
+            if (!sos) obnovleniaSostainia(0);
+        }
+        else obnovleniaSostainia(0);
+    }
+
+
+
 
     public void jam()
     {

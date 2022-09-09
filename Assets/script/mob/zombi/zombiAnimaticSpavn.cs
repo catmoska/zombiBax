@@ -36,7 +36,7 @@ public class zombiAnimaticSpavn : MonoBehaviour
     private void OnDestroy()
     {
         Color h = SR.color;
-        h.a += 1;
+        h.a = 1;
         SR.color = h;
     }
 }

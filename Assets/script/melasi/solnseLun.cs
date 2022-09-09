@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class solnseLun : MonoBehaviour
@@ -31,13 +32,31 @@ public class solnseLun : MonoBehaviour
     }
 
 
-    public float normalizat(float num,float level = 1)
+    public float normalizat(float rots, float level = 1)
     {
-        if (num > level)
+        level = level / 30;
+        float Yrot = (float)Math.Sin(rots / Mathf.Rad2Deg);
+
+        if (Yrot > level)
             return 1;
-        else if (num < -level)
+        else if (Yrot < -level)
             return -1;
 
-        return num/ level;
+        return Yrot / level;
     }
+
+    //public float normalizat(float num, float level = 1)
+    //{
+    //    if (num > level)
+    //        return 1;
+    //    else if (num < -level)
+    //        return -1;
+
+    //    if (num > 90)
+    //        num -= 180;
+    //    else if (num < -90)
+    //        num += 180;
+    //    Debug.Log(num);
+    //    return num / level;
+    //}
 }
